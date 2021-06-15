@@ -19,8 +19,7 @@ public class TrackingServiceImpl implements TrackingService{
 
 	@Autowired
 	private TrackingRepository repository;
-	@Autowired
-	private PedidoRepository pedidoRepository;
+	
 	@Autowired
 	private DetallePedidoUsuarioRepository historialrepository;
 	

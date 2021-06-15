@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.veterinaria.servidor.entity.Categoria;
@@ -20,13 +22,15 @@ public interface ProductoService {
 	public abstract Optional<Producto> buscaProductoPorId(int idproducto);
 	public abstract void eliminaProducto(int idproducto);
 	public abstract Producto detalleProductoXID(int idproducto);
+	public abstract Producto actualizaFotos(Producto bean);
 	
 	//CONSULTAS
 	public abstract List<Producto> listaProductoByNombre(String nombre);
-	public abstract List<Producto> listaProductoByNombreAaZ();
-	public abstract List<Producto> listaProductoByNombreZaA();
-	public abstract List<Producto> listaProductoByPrecioMenorMayor();
-	public abstract List<Producto> listaProductoByPrecioMayoraMenor();
+	public abstract Page<Producto> listaProductoByNombreAaZ(Pageable pageable);
+	public abstract Page<Producto> listaProductoByNombreZaA(Pageable pageable);
+	public abstract Page<Producto> listaProductoByPrecioMenorMayor(Pageable pageable);
+	public abstract Page<Producto> listaProductoByPrecioMayoraMenor(Pageable pageable);
+	public abstract Page<Producto> listaAllProducto(Pageable pageable);
 	
 	//SUBIR ARCHIVOS
 	public abstract void saveFile(MultipartFile file) throws Exception;

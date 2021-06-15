@@ -91,6 +91,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 		return repository.listaPersonalTrabajo();
 	}
 
+	@Override
+	public Usuario buscaUsuarioPorCorreo(String correo) {
+		return repository.findUserByCorreo(correo);
+	}
+
 
 
 }

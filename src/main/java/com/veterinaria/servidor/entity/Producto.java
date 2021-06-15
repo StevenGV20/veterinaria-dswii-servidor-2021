@@ -41,6 +41,8 @@ public class Producto {
 	private String foto2;
 	private String foto3;
 	
+	
+	 
 	//private Categoria idcategoria;
 	
 	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})

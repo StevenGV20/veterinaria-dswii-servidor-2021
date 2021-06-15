@@ -20,6 +20,7 @@ public interface UsuarioService {
 	public abstract List<Usuario> listaPersonalTrabajo();
 	public abstract Usuario registraUsuario(Usuario bean);
 	public abstract Optional<Usuario> buscaUsuarioPorId(int idusuario);
+	public abstract Usuario buscaUsuarioPorCorreo(String correo);
 	public abstract Usuario buscarUsuarioXRol(int idusuario);
 	public abstract void eliminaUsuario(int idusuario);
 	public abstract List<Usuario> listaUsuarioPorRol(int idrol);
