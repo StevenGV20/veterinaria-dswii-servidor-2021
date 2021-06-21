@@ -11,7 +11,6 @@ import com.veterinaria.servidor.entity.DetallePedidoUsuarioPK;
 import com.veterinaria.servidor.entity.Tracking;
 import com.veterinaria.servidor.entity.Usuario;
 import com.veterinaria.servidor.repository.DetallePedidoUsuarioRepository;
-import com.veterinaria.servidor.repository.PedidoRepository;
 import com.veterinaria.servidor.repository.TrackingRepository;
 
 @Service

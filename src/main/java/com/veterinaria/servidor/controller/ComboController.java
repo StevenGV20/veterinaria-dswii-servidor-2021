@@ -3,6 +3,7 @@ package com.veterinaria.servidor.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,26 +25,30 @@ public class ComboController {
 	@Autowired
 	private ComboService service;
 	
-	//METODOS GET DE LISTAS O CONSULTAS 
-		@GetMapping("/especie")
-		@ResponseBody
-		public List<Especie> listaEspecie(){
-			List<Especie> listaEspecie= service.listaEspecie();
-			return listaEspecie;
-		}
-		
+	//METODOS GET DE LISTAS O CONSULTAS
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE", "ROLE_VETERINARIO"})
+	@GetMapping("/especie")
+	@ResponseBody
+	public List<Especie> listaEspecie(){
+		List<Especie> listaEspecie= service.listaEspecie();
+		return listaEspecie;
+	}
+	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE", "ROLE_VETERINARIO", "ROLE_REPARTIDOR"})
 	@ResponseBody
 	@GetMapping(path = "/distrito")
 	public List<Distrito> listaDistritos(){
 		return service.listaDistrito();
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE", "ROLE_VETERINARIO", "ROLE_REPARTIDOR"})
 	@ResponseBody
 	@GetMapping(path = "/categoria")
 	public List<Categoria> listaCategoria(){
 		return service.listaCategoria();
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE", "ROLE_VETERINARIO", "ROLE_REPARTIDOR"})
 	@ResponseBody
 	@GetMapping(path = "/rol")
 	public List<Rol> listaRol(){

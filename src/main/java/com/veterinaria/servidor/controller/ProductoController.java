@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,18 +34,21 @@ public class ProductoController {
 	@Autowired
 	private ProductoService service;
 	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
 	@ResponseBody
 	@GetMapping(value = "/lista")
 	public List<Producto> listaProducto(){
 		return service.listaProducto();
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
 	@GetMapping(value = "/buscaProductoById/{cod}")
 	@ResponseBody
 	public  Optional<Producto> buscaProductoById(@PathVariable("cod")int cod){
 		return service.buscaProductoPorId(cod);
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
 	@GetMapping(value = "/listaProductosByNombre/{nombre}")
 	@ResponseBody
 	public List<Producto> listaProductosByNombre(@PathVariable("nombre") String nombre){
@@ -52,6 +56,7 @@ public class ProductoController {
 		return lista;
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
 	@GetMapping(value = "/listaProductosByNombreAaZ/{page}")
 	@ResponseBody
 	public Page<Producto> listaProductosByAaZ(@PathVariable("page") int num){
@@ -59,6 +64,8 @@ public class ProductoController {
 		Page<Producto> lista= service.listaProductoByNombreAaZ(paginacion);
 		return lista;
 	}
+	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
 	@GetMapping(value = "/listaProductosByNombreZaA/{page}")
 	@ResponseBody
 	public Page<Producto> listaProductosByNombreZaA(@PathVariable("page") int num){
@@ -66,6 +73,8 @@ public class ProductoController {
 		Page<Producto> lista= service.listaProductoByNombreZaA(paginacion);
 		return lista;
 	}
+	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
 	@GetMapping(value = "/listaProductoByPrecioMenorMayor/{page}")
 	@ResponseBody
 	public Page<Producto> listaProductoByPrecioMenorMayor(@PathVariable("page") int num){
@@ -73,6 +82,8 @@ public class ProductoController {
 		Page<Producto> lista= service.listaProductoByPrecioMenorMayor(paginacion);
 		return lista;
 	}
+	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
 	@GetMapping(value = "/listaProductoByPrecioMayoraMenor/{page}")
 	@ResponseBody
 	public Page<Producto> listaProductoByPrecioMayoraMenor(@PathVariable("page") int num){
@@ -80,6 +91,8 @@ public class ProductoController {
 		Page<Producto> lista= service.listaProductoByPrecioMayoraMenor(paginacion);
 		return lista;
 	}
+	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
 	@GetMapping(value = "/listaByPage/{page}")
 	@ResponseBody
 	public Page<Producto> listaByPage(@PathVariable("page") int num){
@@ -88,7 +101,7 @@ public class ProductoController {
 		return lista;
 	}
 	
-	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
 	@GetMapping(value = "/buscaProductoXID/{id}")
 	@ResponseBody
 	public Optional<Producto> buscaProductoXID(@PathVariable(name = "id") int id){
@@ -96,7 +109,7 @@ public class ProductoController {
 		return producto;
 	}
 	
-	
+	@Secured("ROLE_ADMINISTRADOR")
 	@PostMapping("/registra")
 	@ResponseBody
 	public ResponseEntity<?> registra(Producto obj){
@@ -140,6 +153,7 @@ public class ProductoController {
 		}
 	}
 	
+	@Secured("ROLE_ADMINISTRADOR")
 	@PutMapping("/subirFotos")
 	public ResponseEntity<?> subirFotos(@RequestBody Producto obj){
 		try {
@@ -154,6 +168,7 @@ public class ProductoController {
 		}
 	}
 	
+	@Secured("ROLE_ADMINISTRADOR")
 	@PutMapping("/actualiza")
 	public ResponseEntity<?> actualiza(@RequestBody Producto obj){
 		try {
@@ -164,6 +179,7 @@ public class ProductoController {
 		}
 	}
 	
+	@Secured("ROLE_ADMINISTRADOR")
 	@DeleteMapping(path = "/elimina/{id}")
 	public ResponseEntity<?> eliminaCliente(@PathVariable(name = "id") int id) {
 		try {

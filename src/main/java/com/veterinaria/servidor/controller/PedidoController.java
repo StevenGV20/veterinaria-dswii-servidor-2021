@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +36,7 @@ public class PedidoController {
 	@Autowired
 	private PedidoService pedidoService;
 	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE", "ROLE_REPARTIDOR"})
 	@GetMapping("/detallePedidoById/{codigo}")
 	@ResponseBody
 	public List<DetallePedido>  detallePedidoById(@PathVariable("codigo") int id) {
@@ -42,6 +44,7 @@ public class PedidoController {
 		return lista;
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE", "ROLE_REPARTIDOR"})
 	@GetMapping("/boletaById/{codigo}")
 	@ResponseBody
 	public List<Seleccion>  boletaById(@PathVariable("codigo") int id) {
@@ -49,13 +52,14 @@ public class PedidoController {
 		return lista;
 	}
 	
-
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE", "ROLE_REPARTIDOR"})
 	@GetMapping("/pedidoBYID/{id}")
 	public Optional<Pedido>  pedidoBYID(@PathVariable("id") int id) {
 		Optional<Pedido> pedido=pedidoService.buscaPedidoById(id);
 		return pedido;		
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
 	@PostMapping("/procesarCarrito")
 	@ResponseBody
 	public ResponseEntity<?> procesarCarrito(@RequestBody Seleccion sel,HttpSession session)  {

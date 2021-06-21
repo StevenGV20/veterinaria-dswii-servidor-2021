@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,7 +39,7 @@ public class ClienteController {
 	@Autowired
 	private UsuarioService usuarioService;
 	
-
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_VETERINARIO"})
 	@ResponseBody
 	@GetMapping(path = "/lista")
 	public List<Usuario> lista(){
@@ -46,6 +47,7 @@ public class ClienteController {
 		return clienteService.listaCliente();
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_VETERINARIO"})
 	@ResponseBody
 	@GetMapping(path = "/listaResponse")
 	public List<EntityModel<Usuario>> listaResponse(){
@@ -59,6 +61,7 @@ public class ClienteController {
 		
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_VETERINARIO", "ROLE_CLIENTE"})
 	@GetMapping("/{id}")
 	public EntityModel<Usuario> buscaUsuarioXID(@PathVariable int id) {
 	  Usuario usuario = usuarioService.buscaUsuarioPorId(id).orElseThrow();
@@ -66,6 +69,7 @@ public class ClienteController {
 				linkTo(methodOn(ClienteController.class).buscaUsuarioXID(usuario.getIdusuario())).withSelfRel());
 	}
 	
+	// Permitido para todos
 	@PostMapping(path = "/registra")
 	public ResponseEntity<?> registra(@RequestBody Usuario bean) {
 		//clienteService.registrarCiente(bean);
@@ -86,7 +90,7 @@ public class ClienteController {
 		}
 	}
 	
-	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
 	@PutMapping(path = "/actualiza")
 	public ResponseEntity<?>  actualiza(@RequestBody Usuario bean) {
 		try {
@@ -106,12 +110,10 @@ public class ClienteController {
 		}
 	}
 	
+	@Secured("ROLE_ADMINISTRADOR")
 	@DeleteMapping(path = "/elimina/{id}")
 	public void eliminaCliente(@PathVariable(name = "id") int id) {
 		usuarioService.eliminaUsuario(id);
 	}
-	
-	
-	
-	
+
 }

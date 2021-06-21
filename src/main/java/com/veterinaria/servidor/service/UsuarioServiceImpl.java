@@ -1,10 +1,20 @@
 package com.veterinaria.servidor.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.veterinaria.servidor.entity.Opcion;
 import com.veterinaria.servidor.entity.Rol;
@@ -13,8 +23,10 @@ import com.veterinaria.servidor.repository.RolRepository;
 import com.veterinaria.servidor.repository.UsuarioRepository;
 
 @Service
-public class UsuarioServiceImpl implements UsuarioService{
-
+public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
+	
+	private Logger logger = LoggerFactory.getLogger(UsuarioService.class);
+	
 	@Autowired
 	private UsuarioRepository repository;
 	
@@ -49,7 +61,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public Optional<Usuario> buscaUsuarioPorId(int idusuario) {
+	public Optional<Usuario> buscaUsuarioPorId(Integer idusuario) {
 		
 		return repository.findById(idusuario);
 	}
@@ -90,12 +102,27 @@ public class UsuarioServiceImpl implements UsuarioService{
 	public List<Usuario> listaPersonalTrabajo() {
 		return repository.listaPersonalTrabajo();
 	}
-
+	
 	@Override
 	public Usuario buscaUsuarioPorCorreo(String correo) {
 		return repository.findUserByCorreo(correo);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Usuario usuario = repository.findUserByCorreo(username);
+		
+		if(usuario == null) {
+			logger.error("Error en login: No existe el usuario '" + username +"'en el sistema");
+			throw new UsernameNotFoundException("Error en login: No existe el usuario '" + username +"'en el sistema");
+		}
+		
+		List<GrantedAuthority> roles = new ArrayList<>();
+		roles.add(new SimpleGrantedAuthority(usuario.getIdrol().getNombre()));
 
+		UserDetails userDetails = new User(usuario.getCorreo(), usuario.getPassword(), roles);
+		return userDetails;
+	}
 
 }

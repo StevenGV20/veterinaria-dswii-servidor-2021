@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,12 +33,15 @@ public class UsuarioController {
 	@Autowired
 	private UsuarioService service;
 	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	@ResponseBody
 	@PostMapping(path = "/login")
 	public Usuario login(@RequestBody Usuario bean){
 		return service.login(bean);
 	}
+	
 	/*@ResponseBody
 	@PostMapping(path = "/iniciarSesion")
 	public Usuario login(@RequestBody Usuario bean,  HttpSession session){
@@ -50,12 +55,14 @@ public class UsuarioController {
 	}
 	*/
 	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_CLIENTE", "ROLE_VENDEDOR", "ROLE_REPARTIDOR", "ROLE_VETERINARIO"})
 	@ResponseBody
 	@GetMapping(value = "/traerEnlaces/{id}")
-	public List<Opcion> traerEnlaces(@PathVariable("id") int id){
+	public List<Opcion> traerEnlaces(@PathVariable("id") Integer id){
 		return service.traerEnlacesDeUsuario(id);
 	}
 	
+	@Secured("ROLE_ADMINISTRADOR")
 	@GetMapping(value="/listaUsuarios")
 	@ResponseBody
 	public List<Usuario> listaUsuarios(){
@@ -63,6 +70,7 @@ public class UsuarioController {
 		return lista;
 	}
 	
+	@Secured("ROLE_ADMINISTRADOR")
 	@GetMapping(value="/listaPersonalTrabajo")
 	@ResponseBody
 	public List<Usuario> listaPersonalTrabajo(){
@@ -70,13 +78,15 @@ public class UsuarioController {
 		return lista;
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_CLIENTE", "ROLE_VENDEDOR", "ROLE_REPARTIDOR", "ROLE_VETERINARIO"})
 	@GetMapping(value="/listaUsuarioByRol")
 	@ResponseBody
 	public List<Usuario> listaUsuarioByRol(int cod){
 		List<Usuario> lista= service.listaUsuarioPorRol(cod);
 		return lista;
 	}
-
+	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_CLIENTE", "ROLE_VENDEDOR", "ROLE_REPARTIDOR", "ROLE_VETERINARIO"})
 	@GetMapping(value="/buscaUsuarioXID")
 	@ResponseBody
 	public Optional<Usuario> buscaUsuarioXID(int id){
@@ -84,6 +94,7 @@ public class UsuarioController {
 		return usuario;
 	}
 	
+	@Secured("ROLE_ADMINISTRADOR")
 	@PostMapping(path="/registrarUsuario")
 	public ResponseEntity<?> registraUsuario(@RequestBody Usuario obj) {
 		try {
@@ -92,6 +103,8 @@ public class UsuarioController {
 				return Constantes
 						.mensaje(HttpStatus.BAD_REQUEST, "Error", "Este Usuario ya existe. Revise sus datos por favor");
 			}else {
+				String passwordBcrypt = passwordEncoder.encode(obj.getPassword());
+				obj.setPassword(passwordBcrypt);
 				return ResponseEntity.ok(service.registraUsuario(obj));
 			}
 		} catch (Exception e) {
@@ -101,6 +114,7 @@ public class UsuarioController {
 		}
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_CLIENTE", "ROLE_VENDEDOR", "ROLE_REPARTIDOR", "ROLE_VETERINARIO"})
 	@PutMapping(path="/actualizaUsuario")
 	public  ResponseEntity<?>  actualizaUsuario(@RequestBody Usuario obj) {
 		try {
@@ -109,6 +123,8 @@ public class UsuarioController {
 				return Constantes
 						.mensaje(HttpStatus.BAD_REQUEST, "Error", "Este Usuario ya existe. Revise sus datos por favor");
 			}else {
+				String passwordBcrypt = passwordEncoder.encode(obj.getPassword());
+				obj.setPassword(passwordBcrypt);
 				return ResponseEntity.ok(service.registraUsuario(obj));
 			}
 		} catch (Exception e) {
@@ -118,7 +134,8 @@ public class UsuarioController {
 		}
 	}
 	
-	@DeleteMapping(path="/eliminaUsuario/")
+	@Secured("ROLE_ADMINISTRADOR")
+	@DeleteMapping(path="/eliminaUsuario")
 	public void eliminaUsuario(int id) {
 		service.eliminaUsuario(id);
 	}

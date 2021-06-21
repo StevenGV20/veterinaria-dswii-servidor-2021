@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,11 +27,10 @@ import com.veterinaria.servidor.util.Constantes;
 @CrossOrigin(origins = {"http://localhost:8090","http://localhost:8091"}, methods = {RequestMethod.GET,RequestMethod.POST})
 public class TrackingController {
 
-	
 	@Autowired
 	private TrackingService trackingService;
 	
-	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_CLIENTE", "ROLE_VENDEDOR", "ROLE_REPARTIDOR"})
 	@GetMapping("/listaByCliente/{cliente}")
 	@ResponseBody
 	public List<Tracking> listaTrackingByCliente(@PathVariable("cliente") int id){
@@ -38,6 +38,7 @@ public class TrackingController {
 		return lista;
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_REPARTIDOR"})
 	@GetMapping("/listaByTrabajador/{codigo}")
 	@ResponseBody
 	public List<Tracking> listaTrackingByTrabajador(@PathVariable("codigo") int id){
@@ -45,6 +46,7 @@ public class TrackingController {
 		return lista;
 	}
 	
+	@Secured("ROLE_ADMINISTRADOR")
 	@GetMapping("/listaAll")
 	@ResponseBody
 	public List<Tracking> listaAllTracking(){
@@ -52,6 +54,7 @@ public class TrackingController {
 		return lista;
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_CLIENTE", "ROLE_VENDEDOR", "ROLE_REPARTIDOR"})
 	@GetMapping("/buscaByPedido/{codigo}")
 	@ResponseBody
 	public Optional<Tracking> buscaTrackinByPedido(@PathVariable("codigo") int cod){
@@ -59,6 +62,7 @@ public class TrackingController {
 		return track;
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_CLIENTE", "ROLE_VENDEDOR", "ROLE_REPARTIDOR"})
 	@GetMapping("/buscarHistorialPedido/{codigo}")
 	@ResponseBody
 	public List<DetallePedidoUsuario> buscarHistorialPedido(@PathVariable("codigo") int cod){
@@ -66,7 +70,7 @@ public class TrackingController {
 		return historial;
 	}
 	
-	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR"})
 	@PutMapping("/asignaTrabajador")
 	public ResponseEntity<?> asignaTrabajador(@RequestBody Tracking bean){
 		//Optional<Track> option=service.buscaUsuarioPorId(id);
@@ -79,7 +83,7 @@ public class TrackingController {
 		}
 	}
 	
-
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_REPARTIDOR"})
 	@RequestMapping("/registraEntrega")
 	public ResponseEntity<?> registraEntrega(@RequestBody Tracking bean){
 		try {
