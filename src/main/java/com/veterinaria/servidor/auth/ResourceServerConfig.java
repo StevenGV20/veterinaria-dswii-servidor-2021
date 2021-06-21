@@ -28,12 +28,13 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 		/*http
 			.authorizeRequests()
 			.anyRequest()
-			.authenticated()
+			.authenticated()|
 			.and()
 			.httpBasic();*/
 		http.authorizeRequests()
 		/* Permitidos sin autenticación */
-		.antMatchers(HttpMethod.GET, "/", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js").permitAll()
+		.antMatchers(HttpMethod.GET, "/", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js",
+				"/producto/**","/servicio/**","/combo/**").permitAll()
 		.antMatchers(HttpMethod.POST, "/usuario/login", "/cliente/registra").permitAll()
 		/* Auth */
 		.antMatchers("/auth/**").permitAll()

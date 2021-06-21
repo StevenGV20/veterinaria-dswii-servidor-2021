@@ -34,21 +34,21 @@ public class ProductoController {
 	@Autowired
 	private ProductoService service;
 	
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
+	//@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
 	@ResponseBody
 	@GetMapping(value = "/lista")
 	public List<Producto> listaProducto(){
 		return service.listaProducto();
 	}
 	
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
+	//@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
 	@GetMapping(value = "/buscaProductoById/{cod}")
 	@ResponseBody
 	public  Optional<Producto> buscaProductoById(@PathVariable("cod")int cod){
 		return service.buscaProductoPorId(cod);
 	}
 	
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
+	//@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
 	@GetMapping(value = "/listaProductosByNombre/{nombre}")
 	@ResponseBody
 	public List<Producto> listaProductosByNombre(@PathVariable("nombre") String nombre){
@@ -56,7 +56,7 @@ public class ProductoController {
 		return lista;
 	}
 	
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
+	//@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
 	@GetMapping(value = "/listaProductosByNombreAaZ/{page}")
 	@ResponseBody
 	public Page<Producto> listaProductosByAaZ(@PathVariable("page") int num){
@@ -65,7 +65,7 @@ public class ProductoController {
 		return lista;
 	}
 	
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
+	//@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
 	@GetMapping(value = "/listaProductosByNombreZaA/{page}")
 	@ResponseBody
 	public Page<Producto> listaProductosByNombreZaA(@PathVariable("page") int num){
@@ -74,7 +74,7 @@ public class ProductoController {
 		return lista;
 	}
 	
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
+	//@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
 	@GetMapping(value = "/listaProductoByPrecioMenorMayor/{page}")
 	@ResponseBody
 	public Page<Producto> listaProductoByPrecioMenorMayor(@PathVariable("page") int num){
@@ -83,7 +83,7 @@ public class ProductoController {
 		return lista;
 	}
 	
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
+	//@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
 	@GetMapping(value = "/listaProductoByPrecioMayoraMenor/{page}")
 	@ResponseBody
 	public Page<Producto> listaProductoByPrecioMayoraMenor(@PathVariable("page") int num){
@@ -92,7 +92,7 @@ public class ProductoController {
 		return lista;
 	}
 	
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
+	//@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
 	@GetMapping(value = "/listaByPage/{page}")
 	@ResponseBody
 	public Page<Producto> listaByPage(@PathVariable("page") int num){
@@ -101,18 +101,18 @@ public class ProductoController {
 		return lista;
 	}
 	
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
+	//@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE"})
 	@GetMapping(value = "/buscaProductoXID/{id}")
 	@ResponseBody
 	public Optional<Producto> buscaProductoXID(@PathVariable(name = "id") int id){
 		Optional<Producto> producto= service.buscaProductoPorId(id);
 		return producto;
-	}
+	} 
 	
 	@Secured("ROLE_ADMINISTRADOR")
 	@PostMapping("/registra")
 	@ResponseBody
-	public ResponseEntity<?> registra(Producto obj){
+	public ResponseEntity<?> registra(@RequestBody Producto obj){
 		try {
 			/*Producto pro=new Producto();
 			pro.setNombre(obj.getNombre());

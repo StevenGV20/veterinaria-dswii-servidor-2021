@@ -2,6 +2,8 @@ package com.veterinaria.servidor.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,4 +25,7 @@ public interface ServicioRepository extends JpaRepository<Servicio, Integer>{
 
 	@Query("Select s from Servicio s order by s.precio asc")
 	public abstract List<Servicio> listaServicioByPrecioMenor();
+	
+	@Query("Select p from Servicio p")
+	public abstract Page<Servicio> listaAllServicio(Pageable pageable);
 }

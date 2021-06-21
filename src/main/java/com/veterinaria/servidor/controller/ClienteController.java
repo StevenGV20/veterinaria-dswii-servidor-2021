@@ -11,6 +11,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +39,9 @@ public class ClienteController {
 	
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_VETERINARIO"})
 	@ResponseBody
@@ -79,7 +83,11 @@ public class ClienteController {
 				return Constantes
 						.mensaje(HttpStatus.BAD_REQUEST, "Error", "Este Usuario ya existe. Revise sus datos por favor");
 			}else {
+				String passwordBcrypt = passwordEncoder.encode(bean.getPassword());
+				bean.setPassword(passwordBcrypt); 
+				System.out.println("CLAVE ENCRIPTADA"+bean.getPassword());
 				Usuario nuevo= clienteService.registrarCiente(bean); 
+				
 				return ResponseEntity.ok(nuevo);			
 			}
 			
@@ -94,14 +102,16 @@ public class ClienteController {
 	@PutMapping(path = "/actualiza")
 	public ResponseEntity<?>  actualiza(@RequestBody Usuario bean) {
 		try {
-			List<Usuario> verific=usuarioService.verificarRegistro(bean);
+			/*List<Usuario> verific=usuarioService.verificarRegistro(bean);
 			if(!verific.isEmpty()) {
 				return Constantes
 						.mensaje(HttpStatus.BAD_REQUEST, "Error", "Este Usuario ya existe. Revise sus datos por favor");
-			}else {
+			}else {*/
+				String passwordBcrypt = passwordEncoder.encode(bean.getPassword());
+				bean.setPassword(passwordBcrypt);
 				Usuario nuevo= clienteService.registrarCiente(bean); 
 				return ResponseEntity.ok(nuevo);			
-			}
+			//}
 			
 		} catch (Exception e) {
 			e.printStackTrace();

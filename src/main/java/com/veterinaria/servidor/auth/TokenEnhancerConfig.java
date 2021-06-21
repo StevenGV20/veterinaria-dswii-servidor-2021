@@ -28,6 +28,10 @@ public class TokenEnhancerConfig implements TokenEnhancer {
 		information.put("nombre", usuario.getNombre());
 		information.put("apellido", usuario.getApellido());
 		information.put("correo", usuario.getCorreo());
+		information.put("idusuario", usuario.getIdusuario());
+		information.put("sexo", usuario.getSexo());
+		information.put("idrol", usuario.getIdrol().getIdrol());
+		//information.put("nombreRol", usuario.getIdrol().getNombre());
 		
 		((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(information);
 		return accessToken;

@@ -3,6 +3,8 @@ package com.veterinaria.servidor.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.veterinaria.servidor.entity.Servicio;
@@ -22,4 +24,5 @@ public interface ServicioService {
 	public abstract List<Servicio> listaServicioByZaA();
 	public abstract List<Servicio> listaServicioByPrecioMenor();
 	public abstract List<Servicio> listaServicioByPrecioMayor();
+	public abstract Page<Servicio> listaServicioByPage(Pageable pageable);
 }

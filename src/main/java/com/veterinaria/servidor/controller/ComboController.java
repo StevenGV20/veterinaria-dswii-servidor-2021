@@ -26,7 +26,7 @@ public class ComboController {
 	private ComboService service;
 	
 	//METODOS GET DE LISTAS O CONSULTAS
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE", "ROLE_VETERINARIO"})
+	//@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE", "ROLE_VETERINARIO"})
 	@GetMapping("/especie")
 	@ResponseBody
 	public List<Especie> listaEspecie(){
@@ -34,21 +34,21 @@ public class ComboController {
 		return listaEspecie;
 	}
 	
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE", "ROLE_VETERINARIO", "ROLE_REPARTIDOR"})
+	//@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE", "ROLE_VETERINARIO", "ROLE_REPARTIDOR"})
 	@ResponseBody
 	@GetMapping(path = "/distrito")
 	public List<Distrito> listaDistritos(){
 		return service.listaDistrito();
 	}
 	
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE", "ROLE_VETERINARIO", "ROLE_REPARTIDOR"})
+	//@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE", "ROLE_VETERINARIO", "ROLE_REPARTIDOR"})
 	@ResponseBody
 	@GetMapping(path = "/categoria")
 	public List<Categoria> listaCategoria(){
 		return service.listaCategoria();
 	}
 	
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE", "ROLE_VETERINARIO", "ROLE_REPARTIDOR"})
+	//@Secured({"ROLE_ADMINISTRADOR", "ROLE_VENDEDOR", "ROLE_CLIENTE", "ROLE_VETERINARIO", "ROLE_REPARTIDOR"})
 	@ResponseBody
 	@GetMapping(path = "/rol")
 	public List<Rol> listaRol(){

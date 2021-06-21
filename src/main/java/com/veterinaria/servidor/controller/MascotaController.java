@@ -102,7 +102,7 @@ public class MascotaController {
 		try {
 			if(option.isPresent()) {
 				mascotaService.eliminaMascota(id);
-				return ResponseEntity.ok().build();
+				return Constantes.mensaje(HttpStatus.ACCEPTED, "Bien", "Se elimino correctamente la mascota "+id);
 			}else {
 				return Constantes.mensaje(HttpStatus.BAD_REQUEST, "Eror", "No estar registrada esta mascota");
 			}

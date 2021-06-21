@@ -1,5 +1,7 @@
 package com.veterinaria.servidor.controller;
 
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +29,8 @@ import com.veterinaria.servidor.util.Constantes;
 
 @RestController
 @RequestMapping(value = "/usuario")
-@CrossOrigin(origins = {"http://localhost:8090","http://localhost:8091"}, methods = {RequestMethod.GET,RequestMethod.POST, RequestMethod.PUT,RequestMethod.DELETE})
+@CrossOrigin(origins = {"http://localhost:8090","http://localhost:8091"}, methods = {RequestMethod.GET,RequestMethod.POST, 
+		RequestMethod.PUT,RequestMethod.DELETE})
 public class UsuarioController {
 	
 	@Autowired
@@ -104,7 +107,8 @@ public class UsuarioController {
 						.mensaje(HttpStatus.BAD_REQUEST, "Error", "Este Usuario ya existe. Revise sus datos por favor");
 			}else {
 				String passwordBcrypt = passwordEncoder.encode(obj.getPassword());
-				obj.setPassword(passwordBcrypt);
+				obj.setPassword(passwordBcrypt); 
+				System.out.println("CLAVE ENCRIPTADA"+obj.getPassword());
 				return ResponseEntity.ok(service.registraUsuario(obj));
 			}
 		} catch (Exception e) {
@@ -118,15 +122,15 @@ public class UsuarioController {
 	@PutMapping(path="/actualizaUsuario")
 	public  ResponseEntity<?>  actualizaUsuario(@RequestBody Usuario obj) {
 		try {
-			List<Usuario> verific=service.verificarRegistro(obj);
+			/*List<Usuario> verific=service.verificarRegistro(obj);
 			if(!verific.isEmpty()) {
 				return Constantes
 						.mensaje(HttpStatus.BAD_REQUEST, "Error", "Este Usuario ya existe. Revise sus datos por favor");
-			}else {
+			}else {*/
 				String passwordBcrypt = passwordEncoder.encode(obj.getPassword());
 				obj.setPassword(passwordBcrypt);
 				return ResponseEntity.ok(service.registraUsuario(obj));
-			}
+			//}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Constantes
@@ -136,8 +140,17 @@ public class UsuarioController {
 	
 	@Secured("ROLE_ADMINISTRADOR")
 	@DeleteMapping(path="/eliminaUsuario")
-	public void eliminaUsuario(int id) {
-		service.eliminaUsuario(id);
+	public ResponseEntity<?> eliminaUsuario(int id) {
+		try {
+			service.eliminaUsuario(id);
+			return Constantes
+					.mensaje(HttpStatus.ACCEPTED, "Bien", "Se elimino correctamente al usuario.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Constantes
+					.mensaje(HttpStatus.BAD_REQUEST, "Error", "Hubo un error al realizar la operacion. "
+							+ "Asegurese de que el usuario no se relacione con algun registro.");
+		}
 	}
 	
 	

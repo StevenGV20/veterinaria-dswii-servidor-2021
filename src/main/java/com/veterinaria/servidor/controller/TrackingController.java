@@ -1,5 +1,6 @@
 package com.veterinaria.servidor.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,6 +88,8 @@ public class TrackingController {
 	@RequestMapping("/registraEntrega")
 	public ResponseEntity<?> registraEntrega(@RequestBody Tracking bean){
 		try {
+			bean.setFechaEntrega(new Date());
+			bean.setHoraEntrega(new Date());
 			trackingService.registrarEntrega(bean);
 			return Constantes.mensaje(HttpStatus.ACCEPTED, "Excelente", "Se registro correctamente la entrega de la venta");
 		} catch (Exception e) {
