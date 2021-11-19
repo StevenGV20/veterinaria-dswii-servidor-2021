@@ -30,7 +30,7 @@ import com.veterinaria.servidor.util.Constantes;
 
 @RestController
 @RequestMapping("/pedido")
-@CrossOrigin(origins = {"http://localhost:8090","http://localhost:8091"}, methods = {RequestMethod.GET,RequestMethod.POST})
+@CrossOrigin(origins = {"http://localhost:8090","http://localhost:8091","http://localhost:3000"}, methods = {RequestMethod.GET,RequestMethod.POST})
 public class PedidoController {
 
 	@Autowired

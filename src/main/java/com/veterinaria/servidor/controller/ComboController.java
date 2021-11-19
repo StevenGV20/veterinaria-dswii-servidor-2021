@@ -18,7 +18,7 @@ import com.veterinaria.servidor.entity.Rol;
 import com.veterinaria.servidor.service.ComboService;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:8090","http://localhost:8091"}, methods = {RequestMethod.GET,RequestMethod.POST})
+@CrossOrigin(origins = {"http://localhost:8090","http://localhost:8091","http://localhost:3000"}, methods = {RequestMethod.GET,RequestMethod.POST})
 @RequestMapping("/combo")
 public class ComboController {
 

@@ -27,7 +27,7 @@ import com.veterinaria.servidor.service.ProductoService;
 import com.veterinaria.servidor.util.Constantes;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:8090","http://localhost:8091"}, 
+@CrossOrigin(origins = {"http://localhost:8090","http://localhost:8091","http://localhost:3000"}, 
 methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
 @RequestMapping(value = "/producto")
 public class ProductoController {
