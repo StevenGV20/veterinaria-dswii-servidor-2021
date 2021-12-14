@@ -26,7 +26,7 @@ import com.veterinaria.servidor.util.Constantes;
 
 @RestController
 @RequestMapping(value = "/mascota")
-@CrossOrigin(origins = {"http://localhost:8090","http://localhost:8091","http://localhost:3000"}, methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
+@CrossOrigin(origins = {"http://localhost:8090","http://localhost:8091","http://localhost:3000","http://localhost:19000","http://localhost:19001","http://localhost:19002"}, methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
 public class MascotaController {
 	@Autowired
 	private MascotaService mascotaService;

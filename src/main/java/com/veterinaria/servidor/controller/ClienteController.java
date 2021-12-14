@@ -30,7 +30,7 @@ import com.veterinaria.servidor.service.UsuarioService;
 import com.veterinaria.servidor.util.Constantes;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:8090","http://localhost:8091","http://localhost:3000"}, methods = {RequestMethod.GET,RequestMethod.POST})
+@CrossOrigin(origins = {"http://localhost:8090","http://localhost:8091","http://localhost:3000","http://localhost:19000","http://localhost:19001","http://localhost:19002"}, methods = {RequestMethod.GET,RequestMethod.POST})
 @RequestMapping(value = "/cliente")
 public class ClienteController {
 	
